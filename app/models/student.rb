@@ -1,8 +1,6 @@
 class Student < ActiveRecord::Base
 	extend Geocoder::Model::ActiveRecord
-	before_validation :get_location_coordinates
-  before_validation :reverse_geocode 
-	
+	#before_validation :get_location_coordinates	
   require 'csv'
 	students = CSV.read('learner-locations - Sheet1.csv')
 
@@ -10,8 +8,25 @@ class Student < ActiveRecord::Base
     CSV.foreach(file.path, headers: true) do |row|
       student_hash = row.to_hash # exclude the price field
       student = Student.where(id: student_hash["id"])
-      print student
-      print student_hash
+      coord = Geocoder.coordinates(student_hash["location"])
+      student_hash[:latitude] = coord[0]
+      student_hash[:longitude] = coord[1]
+
+      query = "#{coord[0]}" + "," + "#{coord[1]}"
+
+      geo = Geocoder.search(query).first
+      if geo == nil
+        #if location cant be found, be less specific
+        r = 7
+        while (geo==nil && r>=0)
+          newQuery = "#{coord[0].round(r)}" + "," + "#{coord[1].round(r)}"
+          r-=3
+          geo = Geocoder.search(newQuery).first
+        end
+      end
+        student_hash[:city] = geo.city
+        student_hash[:state] = geo.state
+        student_hash[:country] = geo.country
 
       if student.count == 1
         student.first.update_attributes(student_hash)
@@ -31,25 +46,6 @@ class Student < ActiveRecord::Base
       errors.add(:base, "Error with geocoding")
     end
     coord
-  end
-
-  def reverse_geocode 
-  	#reverse_geocoded_by :latitude, :longitude do |obj, results|
-    query = :latitude.to_s + "," + :longitude.to_s
-  		#if geo = results.first
-      if geo = Geocoder.search(query).first
-        print geo
-  			obj.locality = geo.city
-        print obj.locality
-        print geo.city
-  			obj.adminDistrict = geo.state
-        print obj.adminDistrict
-        print geo.state
-  			obj.countryRegion = geo.country
-        print obj.countryRegion
-        print geo.country
-  		end
-    #end
   end
 
 end # end class

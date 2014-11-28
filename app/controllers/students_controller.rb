@@ -66,6 +66,12 @@ class StudentsController < ApplicationController
     redirect_to root_url, notice: "Students imported."
   end
 
+  def reverse_geo
+    # params['student'].keys.each do |id|
+    #   @student = Student.find(id.to_i)
+    #   @student.update_attributes(params['user'][id])
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_student

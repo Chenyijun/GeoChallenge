@@ -7,6 +7,7 @@ NovoEDChallenge::Application.routes.draw do
 
   root to: "students#index"
 
+  #get 'students/all/reverse_geo' => 'students#reverse_geo', :as => :reverse_geo, :via => :get
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

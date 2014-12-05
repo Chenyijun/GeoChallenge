@@ -10,22 +10,6 @@ class Student < ActiveRecord::Base
     CSV.foreach(file.path, headers: true) do |row|
       student_hash = row.to_hash # exclude the price field
       student = Student.where(id: student_hash["id"])
-      # coord = Geocoder.coordinates(student_hash["location"])
-      # student_hash[:latitude] = coord[0]
-      # student_hash[:longitude] = coord[1]
-
-      # query = "#{coord[0]}" + "," + "#{coord[1]}"
-
-      # geo = Geocoder.search(query).first
-      # if geo == nil
-      #   #if location cant be found, be less specific
-      #   r = 7
-      #   while (geo==nil && r>=0)
-      #     newQuery = "#{coord[0].round(r)}" + "," + "#{coord[1].round(r)}"
-      #     r-=3
-      #     geo = Geocoder.search(newQuery).first
-      #   end
-      # end
       geo = Geocoder.search(student_hash["location"]).first
       if (geo != nil)
         student_hash[:city] = geo.city
@@ -41,20 +25,9 @@ class Student < ActiveRecord::Base
     end 
   end 
 
-  def get_location_coordinates
-    sleep 1
-    coord = Geocoder.coordinates("#{self.location}")
-    if coord
-      self.latitude = coord[0]
-      self.longitude = coord[1]
-    else 
-      errors.add(:base, "Error with geocoding")
-    end
-    coord
-  end
 
 def self.search(search)
-    find(:all, :conditions => ['city LIKE ? OR state LIKE ? OR country LIKE ? OR location LIKE ?', "%#{search}%", "%#{search}%", "%#{search}%", "%#{search}%"])
+    find(:all, :conditions => ['city LIKE ? OR state LIKE ? OR country LIKE ?', "#{search}", "#{search}", "#{search}"])
 end
 
 end 

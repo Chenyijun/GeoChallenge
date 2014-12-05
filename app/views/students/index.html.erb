@@ -1,3 +1,4 @@
+<body>
 <h1> Find students near me </h1>
 <div id="search">
     <%= render :partial => 'students/search' %>
@@ -7,44 +8,6 @@
   <%= render :partial => 'students/search_results' %>
 </div>
 
-<br>
-<h1>Listing students <%= @students.count %></h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>First name</th>
-      <th>Last name</th>
-      <th>Location</th>
-      <th>City</th>
-      <th>State</th>
-      <th>Country</th>
-      <th>Latitude</th>
-      <th>Longitude</th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @students.each do |student| %>
-      <tr>
-        <td><%= student.first_name %></td>
-        <td><%= student.last_name %></td>
-        <td><%= student.location %></td>
-        <td><%= student.city %></td>
-        <td><%= student.state %></td>
-        <td><%= student.country %></td>
-        <td><%= student.latitude %></td>
-        <td><%= student.longitude %></td>
-        <td><%= link_to 'Show', student %></td>
-        <td><%= link_to 'Edit', edit_student_path(student) %></td>
-        <td><%= link_to 'Destroy', student, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
 <br>
 <div>
 <h3>Import a CSV File</h3>
@@ -56,3 +19,4 @@
 <br>
 
 <%= link_to 'New Student', new_student_path %>
+</body>

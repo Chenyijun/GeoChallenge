@@ -5,6 +5,7 @@ class StudentsController < ApplicationController
   # GET /students.json
   def index
     @students = Student.all
+    @nearbyStudents = Student.search(params[:search])
   end
 
   # GET /students/1
@@ -66,10 +67,8 @@ class StudentsController < ApplicationController
     redirect_to root_url, notice: "Students imported."
   end
 
-  def reverse_geo
-    # params['student'].keys.each do |id|
-    #   @student = Student.find(id.to_i)
-    #   @student.update_attributes(params['user'][id])
+  def search
+    @nearbyStudents = Student.search(params[:search])
   end
 
   private

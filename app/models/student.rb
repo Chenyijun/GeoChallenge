@@ -1,8 +1,10 @@
 class Student < ActiveRecord::Base
 	extend Geocoder::Model::ActiveRecord
-	#before_validation :get_location_coordinates	
   require 'csv'
-	students = CSV.read('learner-locations - Sheet1.csv')
+
+  scope :city_location, -> (city) {where city: city}
+  scope :state_location, -> (state) {where state: state}
+  scope :country_location, -> (country) {where country: country}
 
 	def self.import(file)
     CSV.foreach(file.path, headers: true) do |row|
@@ -32,9 +34,9 @@ class Student < ActiveRecord::Base
         student.first.update_attributes(student_hash)
       else
         Student.create!(student_hash)
-      end # end if !product.nil?
-    end # end CSV.foreach
-  end # end self.import(file)
+      end 
+    end 
+  end 
 
   def get_location_coordinates
     sleep 1
@@ -48,4 +50,8 @@ class Student < ActiveRecord::Base
     coord
   end
 
-end # end class
+def self.search(search)
+  find(:all, :conditions => ['city LIKE ? OR state LIKE ? OR country LIKE ?', "%#{search}%", "%#{search}%", "%#{search}%"])
+end
+
+end 

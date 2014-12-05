@@ -1,1 +1,5 @@
+Notes:
 Some students' locations could not be found or are not accurate using Bing Geocoder (although Google Geocoder can find it). But I decide to use Bing Geocoder because of the search limits in the Google Geocoder.
+
+If I had more time I would add a timezone attribute to the students model using the gem 'timezone'. This would allow students to search not only by location, but timezone as well.
+I would have also wrote some tests.

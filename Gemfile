@@ -38,6 +38,7 @@ gem 'bootstrap-sass'
 
 gem 'foundation-rails'
 
+gem 'timezone'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
 

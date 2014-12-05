@@ -1,5 +1,5 @@
 Notes:
-Some students' locations could not be found or are not accurate using Bing Geocoder (although Google Geocoder can find it). But I decide to use Bing Geocoder because of the search limits in the Google Geocoder.
+Some students' locations could not be found or are not accurate using Bing Geocoder. For example, when I used Google geocoder to find "Peru, PE" it returns the country "Peru", but using Bing geocoder it returns the country "Canada". Another example is that Bing geocoder couldn't find "Innri Njarðvík, Gullbringusysla, Iceland" but Google geocoder could. But I had to use Bing Geocoder due to the search limits in the Google Geocoder.
 
-If I had more time I would add a timezone attribute to the students model using the gem 'timezone'. This would allow students to search not only by location, but timezone as well.
-I would have also wrote some tests.
+If I had more time I would add a timezone attribute to the students model using the gem 'timezone' to search by coordinates. But since I have not recieved account information from geonames, I cannot continue. 
+I would have also written some tests to make sure student locations are accurate.

@@ -8,14 +8,14 @@ class Student < ActiveRecord::Base
 
 	def self.import(file)
     CSV.foreach(file.path, headers: true) do |row|
-      student_hash = row.to_hash # exclude the price field
+      student_hash = row.to_hash 
       student = Student.where(id: student_hash["id"])
-      coord = Geocoder.coordinates(student_hash["location"])
-      student_hash[:latitude] = coord[0]
-      student_hash[:longitude] = coord[1]
+      # coord = Geocoder.coordinates(student_hash["location"])
+      # student_hash[:latitude] = coord[0]
+      # student_hash[:longitude] = coord[1]
       geo = Geocoder.search(student_hash["location"]).first
       if (geo != nil)
-        student_hash[:longitude] = coord
+        student_hash[:longitude] = geo.longitude
         student_hash[:latitude] = geo.latitude
         student_hash[:city] = geo.city
         student_hash[:state] = geo.state
